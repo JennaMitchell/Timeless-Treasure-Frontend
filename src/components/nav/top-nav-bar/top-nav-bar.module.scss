@@ -1,0 +1,304 @@
+@import "../../../utilities/variables";
+
+.backgroundContainer {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: $navZIndex;
+  background-color: $white;
+}
+
+.topContainer {
+  color: $fontColor;
+  font-family: $fontFamily;
+  width: min(1000px, 100%);
+  height: max(40px, 40px);
+  display: grid;
+  grid-template-columns: 40px 450px;
+  grid-template-rows: 100%;
+  justify-content: space-between;
+  align-items: center;
+  color: $black;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: $white;
+  z-index: $navZIndex;
+  position: relative;
+}
+
+.titleContainer {
+  width: max(300px, 300px);
+  height: max(100%, 100%);
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  gap: 10px;
+}
+.icon {
+  width: max(30px, 30px);
+  height: max(30px, 30px);
+  background-color: inherit;
+}
+.title {
+  text-align: center;
+
+  width: 100px;
+  max-width: 100px;
+  min-width: 100px;
+  height: max-content;
+  font-size: 1.2rem;
+  line-height: 1.4rem;
+  color: $main500;
+}
+.actionBar {
+  width: max(100%, 100%);
+  height: max(100%, 100%);
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+  font-size: 2.2rem;
+}
+.loginButton,
+.userButton {
+  min-width: max-content;
+  width: max-content;
+  max-width: max-content;
+  height: max(100%, 100%);
+  transition: all 1s;
+  padding: 0px 10px;
+  background-color: inherit;
+  box-shadow: none;
+  border: none;
+  border-radius: 10px;
+  font-family: $fontFamily;
+  text-decoration: none;
+  color: $black;
+  font-size: toRem(12);
+  line-height: toRem(12);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.userButton {
+  gap: 10px;
+  border: 1px solid $darkgrey;
+  border-radius: 15px;
+  padding: 0px 10px;
+  justify-content: space-between;
+  position: relative;
+  z-index: $navZIndex;
+}
+.userIcon {
+  width: max(25px, 25px);
+  height: max(25px, 25px);
+}
+.username {
+  width: max-content;
+  max-width: max-content;
+  min-width: max-content;
+  font-size: toRem(12);
+  font-family: $fontFamily;
+  color: inherit;
+  text-align: left;
+}
+
+.loginButton:hover,
+.userButton:hover {
+  background-color: $main800;
+  color: $white;
+}
+.searchContainer {
+  max-width: 200px;
+  height: 100%;
+  max-height: 100%;
+  min-height: 100%;
+  display: flex;
+  gap: 10px;
+
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+  box-sizing: border-box;
+
+  position: relative;
+}
+.searchContainer:hover {
+  border: 1px solid blue;
+  outline: 1px solid lightblue;
+}
+.searchContainerActive {
+  border: 1px solid blue;
+  outline: 1px solid lightblue;
+}
+.searchIcon {
+  width: max(20px, 20px);
+  height: max(20px, 20px);
+  color: inherit;
+}
+.searchInput {
+  width: max(100%, 100%);
+  height: max(90%, 90%);
+  color: inherit;
+  border: none;
+  background-color: inherit;
+  font-family: $fontFamily;
+  position: relative;
+}
+.searchInput:focus,
+.searchInput:active {
+  border: none;
+  outline: none;
+  background-color: inherit !important;
+}
+
+.currencyDropDown {
+  min-width: max-content;
+  width: max-content;
+  max-width: max-content;
+  height: max(100%, 100%);
+  color: $black;
+  background-color: inherit;
+  border: none;
+  border-radius: 10px;
+  padding-left: 5px;
+  padding-right: 5px;
+  transition: all 1s;
+  font-family: $fontFamily;
+}
+.currencyDropDown:hover {
+  background-color: $main100;
+}
+.cartContainer {
+  min-width: max-content;
+  min-height: max-content;
+  width: max-content;
+  height: max-content;
+  max-width: max-content;
+  max-height: max-content;
+  color: $black;
+  display: flex;
+  background-color: inherit;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  gap: 10px;
+  border-radius: 50%;
+  padding: 5px;
+
+  position: relative;
+  transition: all 1s;
+}
+.cartContainer:hover {
+  background-color: $main200;
+}
+.cartIcon {
+  width: max(20px, 20px);
+  height: max(20px, 20px);
+}
+.cartItemsTrackers {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: max-content;
+  max-width: max-content;
+  min-width: max-content;
+  height: max-content;
+  max-height: max-content;
+  min-height: max-content;
+  background-color: $main200;
+  color: $black;
+  padding: 0px 5px;
+  border-radius: 50%;
+  font-family: $fontFamily;
+  font-size: toRem(12);
+}
+.cartItemsOverTen {
+  font-size: toRem(8);
+  padding: 2px;
+  top: 0px;
+  right: 0px;
+}
+.cartItemsOverOneHundred {
+  font-size: toRem(6);
+  padding: 4px 2px;
+  top: -2px;
+  right: -2px;
+}
+.searchInputLabel {
+  font-family: $fontFamily;
+  color: inherit;
+  font-size: toRem(14);
+  position: absolute;
+  top: 8px;
+  left: 35px;
+  transition: all 1s;
+  padding: 0px 4px;
+}
+.searchInputLabelMoveOut {
+  top: -8px;
+  left: 10px;
+  font-size: toRem(10);
+  background-color: white;
+}
+@media (max-width: 750px) {
+  .topContainer {
+    grid-template-columns: 40px 250px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topContainer {
+    background-color: $navbarColor;
+  }
+  .topContainer {
+    grid-template-columns: 40px 165px;
+  }
+  .title {
+    color: $white;
+  }
+  .actionBar {
+    justify-content: flex-end;
+    gap: 7.5px;
+  }
+  .loginButton {
+    color: $white;
+  }
+  .loginButton:hover {
+    background-color: $main200;
+    color: $black;
+  }
+  .cartContainer {
+    color: $white;
+  }
+  .cartContainer:hover {
+    color: $black;
+  }
+  .cartItemsTrackers {
+    color: $main900;
+  }
+  .userButton {
+    color: $white;
+    border: 1px solid $white;
+    padding-left: 5px;
+    padding-right: 5px;
+
+    overflow-x: hidden;
+  }
+  .userButton:hover {
+    border: 0px;
+  }
+  .username {
+    font-size: toRem(10);
+  }
+}
