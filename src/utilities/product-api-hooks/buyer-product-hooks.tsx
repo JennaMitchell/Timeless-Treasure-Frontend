@@ -1,5 +1,5 @@
 import { mainStoreSliceActions } from "../../store/store";
-
+import { databaseURL } from "../constants/constants";
 export const getBuyersFulfilledItemsCall = async (
   dispatch: any,
   buyerId: any,
@@ -7,7 +7,7 @@ export const getBuyersFulfilledItemsCall = async (
 ) => {
   try {
     const fetchedResponse = await fetch(
-      `http://localhost:5000/order/buyer-fulfilled-orders/${buyerId}`,
+      `${databaseURL}/order/buyer-fulfilled-orders/${buyerId}`,
       {
         method: "GET",
         headers: {
@@ -29,7 +29,7 @@ export const getBuyersPendingItemsCall = async (
 ) => {
   try {
     const fetchedResponse = await fetch(
-      `http://localhost:5000/order/buyer-pending-orders/${buyerId}`,
+      `${databaseURL}/order/buyer-pending-orders/${buyerId}`,
       {
         method: "GET",
         headers: {
