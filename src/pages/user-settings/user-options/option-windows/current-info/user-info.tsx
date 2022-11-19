@@ -115,7 +115,7 @@ const UserInfo = () => {
       }
       setInitialRender(true);
     }
-  }, [isSeller, dispatch, userId, userToken]);
+  }, [isSeller, dispatch, userId, userToken, initialRender]);
 
   return (
     <>

@@ -188,7 +188,7 @@ const MarketplaceSelection = () => {
       });
       setInitialRender(true);
     }
-  }, [dispatch, acceptedCategories, activeTags, retrievedData]);
+  }, [dispatch, acceptedCategories, activeTags, retrievedData, initialRender]);
 
   if (retrievedData.length !== 0) {
     let indexOfRender = 0;
