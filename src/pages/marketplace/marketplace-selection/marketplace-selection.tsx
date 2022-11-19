@@ -15,6 +15,7 @@ import openSocket from "socket.io-client";
 import { randomKeyGenerator } from "../../../utilities/generic-hooks/generic-hooks";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
+import { databaseURL } from "../../../utilities/constants/constants";
 const MarketplaceSelection = () => {
   const acceptedCategories = [
     "Ceramics",
@@ -43,6 +44,7 @@ const MarketplaceSelection = () => {
   const [popupPrice, setPopupPrice] = useState<string>("");
   const [popupQuantity, setPopupQuantity] = useState(0);
   const [popupProductId, setPopupProductId] = useState("");
+  const [initialRender, setInitialRender] = useState(false);
   const dispatch = useAppDispatch();
   const numberOfItemsPerPage = useAppSelector(
     (state) => state.marketStore.numberOfItemsPerPage
@@ -71,74 +73,23 @@ const MarketplaceSelection = () => {
       setTwoColumnsActive(true);
       dispatch(marketplaceStoreActions.setNumberOfItemsPerPage(6));
     }
-  }, []);
+  }, [dispatch]);
   window.addEventListener("resize", twoColumnsEnabledHandler);
   useEffect(() => {
-    const socket = openSocket("http://localhost:5000");
-    socket.on("new-product", (data) => {
-      if (data.action === "create-new-product") {
-        // once data is recieved need to check if the users selected tags match with what is
-        // the user is looking at the product added section
-        //
-        const newProductTags = data.productCreated.productTags;
-        const copyOfActiveTags = JSON.parse(JSON.stringify(activeTags)).slice();
+    if (!initialRender) {
+      const socket = openSocket(`${databaseURL}`);
+      socket.on("new-product", (data) => {
+        if (data.action === "create-new-product") {
+          // once data is recieved need to check if the users selected tags match with what is
+          // the user is looking at the product added section
+          //
+          const newProductTags = data.productCreated.productTags;
+          const copyOfActiveTags = JSON.parse(
+            JSON.stringify(activeTags)
+          ).slice();
 
-        // Handeling Scenario where there are no active tags
-        if (copyOfActiveTags.length === 0) {
-          const copyOfRetrievedData = JSON.parse(JSON.stringify(retrievedData));
-          copyOfRetrievedData.push(data.productCreated);
-          dispatch(
-            marketplaceStoreActions.setRetrievedData(copyOfRetrievedData)
-          );
-          return;
-        }
-
-        // checking to see if the active tags only has category highlighted
-
-        let indexOfActiveTagCategory = -1;
-        let indexOfNewProductTagCategory = -1;
-        let activeTagCategory = "";
-        let productIdTagCategory = "";
-
-        for (
-          let indexOfActiveTag = 0;
-          indexOfActiveTag < acceptedCategories.length;
-          indexOfActiveTag++
-        ) {
-          if (copyOfActiveTags.includes(acceptedCategories[indexOfActiveTag])) {
-            indexOfActiveTagCategory = copyOfActiveTags.indexOf(
-              acceptedCategories[indexOfActiveTag]
-            );
-            activeTagCategory = acceptedCategories[indexOfActiveTag];
-          }
-          if (newProductTags.includes(acceptedCategories[indexOfActiveTag])) {
-            indexOfNewProductTagCategory = newProductTags.indexOf(
-              acceptedCategories[indexOfActiveTag]
-            );
-            productIdTagCategory = acceptedCategories[indexOfActiveTag];
-          }
-        }
-        if (indexOfActiveTagCategory !== -1) {
-          copyOfActiveTags.splice(indexOfActiveTagCategory, 1);
-        }
-        if (indexOfNewProductTagCategory !== -1) {
-          newProductTags.splice(indexOfNewProductTagCategory, 1);
-        }
-
-        // Checking to see if the two removed categories are the same
-
-        if (indexOfActiveTagCategory !== -1) {
-          if (activeTagCategory !== productIdTagCategory) {
-            return;
-          }
-        }
-
-        for (
-          let indexOfNewProductIds = 0;
-          indexOfNewProductIds < newProductTags.length;
-          indexOfNewProductIds++
-        ) {
-          if (activeTags.includes(newProductTags[indexOfNewProductIds])) {
+          // Handeling Scenario where there are no active tags
+          if (copyOfActiveTags.length === 0) {
             const copyOfRetrievedData = JSON.parse(
               JSON.stringify(retrievedData)
             );
@@ -147,35 +98,97 @@ const MarketplaceSelection = () => {
               marketplaceStoreActions.setRetrievedData(copyOfRetrievedData)
             );
             return;
-          } else {
-            return;
           }
-        }
-      }
-    });
-    socket.on("update-product", (data) => {
-      if (data.action === "update-product") {
-        const copyOfRetrievedData = JSON.parse(JSON.stringify(retrievedData));
-        const updatedProductId = data.productCreated.productId;
 
-        for (
-          let indexOfCopiedRetrievedData = 0;
-          indexOfCopiedRetrievedData < copyOfRetrievedData.length;
-          indexOfCopiedRetrievedData++
-        ) {
-          if (
-            copyOfRetrievedData[indexOfCopiedRetrievedData].productId ===
-            updatedProductId
+          // checking to see if the active tags only has category highlighted
+
+          let indexOfActiveTagCategory = -1;
+          let indexOfNewProductTagCategory = -1;
+          let activeTagCategory = "";
+          let productIdTagCategory = "";
+
+          for (
+            let indexOfActiveTag = 0;
+            indexOfActiveTag < acceptedCategories.length;
+            indexOfActiveTag++
           ) {
-            copyOfRetrievedData[indexOfCopiedRetrievedData] =
-              data.productCreated;
+            if (
+              copyOfActiveTags.includes(acceptedCategories[indexOfActiveTag])
+            ) {
+              indexOfActiveTagCategory = copyOfActiveTags.indexOf(
+                acceptedCategories[indexOfActiveTag]
+              );
+              activeTagCategory = acceptedCategories[indexOfActiveTag];
+            }
+            if (newProductTags.includes(acceptedCategories[indexOfActiveTag])) {
+              indexOfNewProductTagCategory = newProductTags.indexOf(
+                acceptedCategories[indexOfActiveTag]
+              );
+              productIdTagCategory = acceptedCategories[indexOfActiveTag];
+            }
+          }
+          if (indexOfActiveTagCategory !== -1) {
+            copyOfActiveTags.splice(indexOfActiveTagCategory, 1);
+          }
+          if (indexOfNewProductTagCategory !== -1) {
+            newProductTags.splice(indexOfNewProductTagCategory, 1);
+          }
+
+          // Checking to see if the two removed categories are the same
+
+          if (indexOfActiveTagCategory !== -1) {
+            if (activeTagCategory !== productIdTagCategory) {
+              return;
+            }
+          }
+
+          for (
+            let indexOfNewProductIds = 0;
+            indexOfNewProductIds < newProductTags.length;
+            indexOfNewProductIds++
+          ) {
+            if (activeTags.includes(newProductTags[indexOfNewProductIds])) {
+              const copyOfRetrievedData = JSON.parse(
+                JSON.stringify(retrievedData)
+              );
+              copyOfRetrievedData.push(data.productCreated);
+              dispatch(
+                marketplaceStoreActions.setRetrievedData(copyOfRetrievedData)
+              );
+              return;
+            } else {
+              return;
+            }
           }
         }
+      });
+      socket.on("update-product", (data) => {
+        if (data.action === "update-product") {
+          const copyOfRetrievedData = JSON.parse(JSON.stringify(retrievedData));
+          const updatedProductId = data.productCreated.productId;
 
-        dispatch(marketplaceStoreActions.setRetrievedData(copyOfRetrievedData));
-      }
-    });
-  }, []);
+          for (
+            let indexOfCopiedRetrievedData = 0;
+            indexOfCopiedRetrievedData < copyOfRetrievedData.length;
+            indexOfCopiedRetrievedData++
+          ) {
+            if (
+              copyOfRetrievedData[indexOfCopiedRetrievedData].productId ===
+              updatedProductId
+            ) {
+              copyOfRetrievedData[indexOfCopiedRetrievedData] =
+                data.productCreated;
+            }
+          }
+
+          dispatch(
+            marketplaceStoreActions.setRetrievedData(copyOfRetrievedData)
+          );
+        }
+      });
+      setInitialRender(true);
+    }
+  }, [dispatch, acceptedCategories, activeTags, retrievedData]);
 
   if (retrievedData.length !== 0) {
     let indexOfRender = 0;

@@ -18,11 +18,14 @@ import {
 import { getTagDataHandler } from "../../../utilities/product-react-hooks/product-react-hooks";
 import { useNavigate } from "react-router-dom";
 import openSocket from "socket.io-client";
+import { databaseURL } from "../../../utilities/constants/constants";
 const BestSellers = () => {
   const [activeNewArrivalButton, setActiveNewArrivalButton] = useState("All");
   const [clickedItemData, setClickedItemData] = useState<{
     [key: string]: any;
   }>({});
+  const [hotestData, setHotestData] = useState<any[]>([]);
+  const [initialRender, setInitialRender] = useState(false);
   let renderReadyCollection: any[] = [];
   const selectedPriceType = useAppSelector(
     (state) => state.mainStore.selectedPriceType
@@ -51,29 +54,32 @@ const BestSellers = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const socket = openSocket("http://localhost:5000");
-    socket.on("update-product", (data) => {
-      if (data.action === "update-product") {
-        const updatedProductId = data.productCreated.productId;
-        let indexOfMatch = -1;
+    if (!initialRender) {
+      const socket = openSocket(`${databaseURL}`);
+      socket.on("update-product", (data) => {
+        if (data.action === "update-product") {
+          const updatedProductId = data.productCreated.productId;
+          let indexOfMatch = -1;
 
-        for (
-          let indexOfLatestItem = 0;
-          indexOfLatestItem < hotestData.length;
-          indexOfLatestItem++
-        ) {
-          if (updatedProductId === hotestData[indexOfLatestItem].productId) {
-            indexOfMatch = indexOfLatestItem;
+          for (
+            let indexOfLatestItem = 0;
+            indexOfLatestItem < hotestData.length;
+            indexOfLatestItem++
+          ) {
+            if (updatedProductId === hotestData[indexOfLatestItem].productId) {
+              indexOfMatch = indexOfLatestItem;
+            }
+          }
+          if (indexOfMatch !== -1) {
+            const copyOfLatestData = JSON.parse(JSON.stringify(hotestData));
+            copyOfLatestData[indexOfMatch] = data.productCreated;
+            setHotestData(copyOfLatestData);
           }
         }
-        if (indexOfMatch !== -1) {
-          const copyOfLatestData = JSON.parse(JSON.stringify(hotestData));
-          copyOfLatestData[indexOfMatch] = data.productCreated;
-          setHotestData(copyOfLatestData);
-        }
-      }
-    });
-  }, []);
+      });
+      setInitialRender(true);
+    }
+  }, [hotestData, initialRender]);
 
   const navButtonTitles = [
     "All",
@@ -97,8 +103,6 @@ const BestSellers = () => {
       navButtonApiHandler(sectionTitle);
     }
   };
-
-  const [hotestData, setHotestData] = useState<any[]>([]);
 
   const navButtonApiHandler = (productType: string) => {
     hotestItemsApiCallWithFilter(dispatch, productType)

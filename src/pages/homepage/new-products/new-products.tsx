@@ -18,10 +18,12 @@ import {
 import { getTagDataHandler } from "../../../utilities/product-react-hooks/product-react-hooks";
 import { useNavigate } from "react-router-dom";
 import openSocket from "socket.io-client";
+import { databaseURL } from "../../../utilities/constants/constants";
 
 const NewProducts = () => {
   const [activeNewArrivalButton, setActiveNewArrivalButton] = useState("All");
   const [navBarSeperatedEnabler, setNavBarSeperatedEnabler] = useState(false);
+  const [initialRender, setInitialRender] = useState(false);
   const [clickedItemData, setClickedItemData] = useState<{
     [key: string]: any;
   }>({});
@@ -48,42 +50,45 @@ const NewProducts = () => {
   window.addEventListener("resize", navBarSeperatedEnablerHandler);
 
   useEffect(() => {
-    const socket = openSocket("http://localhost:5000");
-    socket.on("new-product", (data) => {
-      if (data.action === "create-new-product") {
-        // once data is recieved need to check if the users selected tags match with what is
-        // the user is looking at
-        const copyOfLatestData = JSON.parse(JSON.stringify(latestData));
-        // shifting data over 1.
-        const shiftedData = [];
-        for (let indexOfShift = 0; indexOfShift < 7; indexOfShift++) {
-          shiftedData[indexOfShift + 1] = copyOfLatestData[indexOfShift];
+    if (!initialRender) {
+      const socket = openSocket(`${databaseURL}`);
+      socket.on("new-product", (data) => {
+        if (data.action === "create-new-product") {
+          // once data is recieved need to check if the users selected tags match with what is
+          // the user is looking at
+          const copyOfLatestData = JSON.parse(JSON.stringify(latestData));
+          // shifting data over 1.
+          const shiftedData = [];
+          for (let indexOfShift = 0; indexOfShift < 7; indexOfShift++) {
+            shiftedData[indexOfShift + 1] = copyOfLatestData[indexOfShift];
+          }
+          shiftedData[0] = data.productCreated;
         }
-        shiftedData[0] = data.productCreated;
-      }
-    });
-    socket.on("update-product", (data) => {
-      if (data.action === "update-product") {
-        const updatedProductId = data.productCreated.productId;
-        let indexOfMatch = -1;
+      });
+      socket.on("update-product", (data) => {
+        if (data.action === "update-product") {
+          const updatedProductId = data.productCreated.productId;
+          let indexOfMatch = -1;
 
-        for (
-          let indexOfLatestItem = 0;
-          indexOfLatestItem < latestData.length;
-          indexOfLatestItem++
-        ) {
-          if (updatedProductId === latestData[indexOfLatestItem].productId) {
-            indexOfMatch = indexOfLatestItem;
+          for (
+            let indexOfLatestItem = 0;
+            indexOfLatestItem < latestData.length;
+            indexOfLatestItem++
+          ) {
+            if (updatedProductId === latestData[indexOfLatestItem].productId) {
+              indexOfMatch = indexOfLatestItem;
+            }
+          }
+          if (indexOfMatch !== -1) {
+            const copyOfLatestData = JSON.parse(JSON.stringify(latestData));
+            copyOfLatestData[indexOfMatch] = data.productCreated;
+            setLatestData(copyOfLatestData);
           }
         }
-        if (indexOfMatch !== -1) {
-          const copyOfLatestData = JSON.parse(JSON.stringify(latestData));
-          copyOfLatestData[indexOfMatch] = data.productCreated;
-          setLatestData(copyOfLatestData);
-        }
-      }
-    });
-  }, []);
+      });
+      setInitialRender(true);
+    }
+  }, [initialRender, latestData]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
