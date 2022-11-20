@@ -3,7 +3,7 @@ import { clearUserStateData } from "../refresh-hooks/refresh-hooks";
 import { databaseURL } from "../constants/constants";
 export const signupCall = async (dispatch, signupData) => {
   try {
-    const fetchedResponse = await fetch(`${databaseURL}/signup`, {
+    const fetchedResponse = await fetch(`${databaseURL}/auth/signup`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
