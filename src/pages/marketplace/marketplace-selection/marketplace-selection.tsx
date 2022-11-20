@@ -17,14 +17,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import { databaseURL } from "../../../utilities/constants/constants";
 const MarketplaceSelection = () => {
-  const acceptedCategories = [
-    "Ceramics",
-    "Clocks",
-    "Tablewear",
-    "Paintings",
-    "Electronics",
-  ];
-
   const [twoColumnsActive, setTwoColumnsActive] = useState(false);
 
   const retrievedData = useAppSelector(
@@ -78,6 +70,13 @@ const MarketplaceSelection = () => {
   useEffect(() => {
     if (!initialRender) {
       const socket = openSocket(`${databaseURL}`);
+      const acceptedCategories = [
+        "Ceramics",
+        "Clocks",
+        "Tablewear",
+        "Paintings",
+        "Electronics",
+      ];
       socket.on("new-product", (data) => {
         if (data.action === "create-new-product") {
           // once data is recieved need to check if the users selected tags match with what is
@@ -188,7 +187,7 @@ const MarketplaceSelection = () => {
       });
       setInitialRender(true);
     }
-  }, [dispatch, acceptedCategories, activeTags, retrievedData, initialRender]);
+  }, [dispatch, activeTags, retrievedData, initialRender]);
 
   if (retrievedData.length !== 0) {
     let indexOfRender = 0;
