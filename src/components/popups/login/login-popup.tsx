@@ -248,9 +248,11 @@ const LoginPopup = () => {
         isSeller: isSeller,
       })
         .then((data) => {
+          console.log(data);
           return data?.json();
         })
         .then((jsonData) => {
+          console.log(jsonData);
           if ("error" in jsonData) {
             if (jsonData.error.length !== 0) {
               dispatch(
