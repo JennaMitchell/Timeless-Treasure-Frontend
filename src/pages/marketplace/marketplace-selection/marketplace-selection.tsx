@@ -4,7 +4,6 @@ import { mainStoreSliceActions } from "../../../store/store";
 import ProductPopup from "../../../components/popups/product/product-popup";
 import { useState } from "react";
 import {
-  imageUrlCreator,
   priceStringCreator,
   convertPrice,
   priceInputCleaner,
@@ -16,6 +15,7 @@ import { randomKeyGenerator } from "../../../utilities/generic-hooks/generic-hoo
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
 import { useEffect } from "react";
 import { databaseURL } from "../../../utilities/constants/constants";
+import { pictureSelectionTestData } from "../../../utilities/constants/picture-selection-data";
 const MarketplaceSelection = () => {
   const [twoColumnsActive, setTwoColumnsActive] = useState(false);
 
@@ -204,7 +204,8 @@ const MarketplaceSelection = () => {
         break;
       }
 
-      const productImageUrl = imageUrlCreator(itemData.imageUrl);
+      const productImageUrl =
+        pictureSelectionTestData[itemData.imageIndex].photo;
 
       const tempPrice = priceStringCreator(
         priceInputCleaner(

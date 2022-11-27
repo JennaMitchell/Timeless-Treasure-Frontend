@@ -18,104 +18,88 @@ const UserInfo = () => {
   const [lastOrderDate, setLastOrderDate] = useState("");
   const [totalSales, setTotalSales] = useState("");
   const [totalBuyOrders, setTotalBuyOrders] = useState("");
-  const [initialRender, setInitialRender] = useState(false);
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.userStore.userId);
   const userToken = useAppSelector((state) => state.userStore.userToken);
 
   useEffect(() => {
-    if (!initialRender) {
-      if (isSeller) {
-        getSellerUserData(dispatch, userId, userToken)
-          .then((response) => {
-            return response?.json();
-          })
-          .then((jsonData) => {
-            if (jsonData !== undefined) {
-              if ("error" in jsonData) {
-                if (jsonData.error.length !== 0) {
-                  dispatch(
-                    mainStoreSliceActions.setAPICallMessage(jsonData.message)
-                  );
-                  dispatch(
-                    mainStoreSliceActions.setAPICallMessageType("ERROR")
-                  );
-                }
-              } else {
+    if (isSeller) {
+      getSellerUserData(dispatch, userId, userToken)
+        .then((response) => {
+          return response?.json();
+        })
+        .then((jsonData) => {
+          if (jsonData !== undefined) {
+            if ("error" in jsonData) {
+              if (jsonData.error.length !== 0) {
                 dispatch(
-                  mainStoreSliceActions.setAPICallMessage("Data Retrieved")
+                  mainStoreSliceActions.setAPICallMessage(jsonData.message)
                 );
-                const latestDate = jsonData.retrievedData.latestDate;
-
-                let date = "N/A";
-                if (latestDate.length !== 0) {
-                  const indexOfFirstTimeStamp = latestDate.trim().indexOf(":");
-                  date = latestDate.trim().slice(0, indexOfFirstTimeStamp - 2);
-                }
-
-                setLastOrderDate(date);
-                setTotalBuyOrders(
-                  jsonData.retrievedData.totalNumberOfBuyOrders
-                );
-                dispatch(
-                  mainStoreSliceActions.setAPICallMessageType("SUCCESS")
-                );
-                setTotalSales(jsonData.retrievedData.totalNumberOfSellerOrders);
+                dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
               }
             } else {
               dispatch(
-                mainStoreSliceActions.setAPICallMessage("Undefined Returned")
+                mainStoreSliceActions.setAPICallMessage("Data Retrieved")
               );
-              dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
+              const latestDate = jsonData.retrievedData.latestDate;
+
+              let date = "N/A";
+              if (latestDate.length !== 0) {
+                const indexOfFirstTimeStamp = latestDate.trim().indexOf(":");
+                date = latestDate.trim().slice(0, indexOfFirstTimeStamp - 2);
+              }
+
+              setLastOrderDate(date);
+              setTotalBuyOrders(jsonData.retrievedData.totalNumberOfBuyOrders);
+              dispatch(mainStoreSliceActions.setAPICallMessageType("SUCCESS"));
+              setTotalSales(jsonData.retrievedData.totalNumberOfSellerOrders);
             }
-          });
-      } else {
-        getBuyerUserData(dispatch, userId, userToken)
-          .then((response) => {
-            return response?.json();
-          })
-          .then((jsonData) => {
-            if (jsonData !== undefined) {
-              if ("error" in jsonData) {
-                if (jsonData.error.length !== 0) {
-                  dispatch(
-                    mainStoreSliceActions.setAPICallMessage(jsonData.message)
-                  );
-                  dispatch(
-                    mainStoreSliceActions.setAPICallMessageType("ERROR")
-                  );
-                }
-              } else {
+          } else {
+            dispatch(
+              mainStoreSliceActions.setAPICallMessage("Undefined Returned")
+            );
+            dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
+          }
+        });
+    } else {
+      getBuyerUserData(dispatch, userId, userToken)
+        .then((response) => {
+          return response?.json();
+        })
+        .then((jsonData) => {
+          if (jsonData !== undefined) {
+            if ("error" in jsonData) {
+              if (jsonData.error.length !== 0) {
                 dispatch(
-                  mainStoreSliceActions.setAPICallMessage("Data Retrieved")
+                  mainStoreSliceActions.setAPICallMessage(jsonData.message)
                 );
-                const latestDate = jsonData.retrievedData.latestDate;
-
-                let date = "N/A";
-                if (latestDate.length !== 0) {
-                  const indexOfFirstTimeStamp = latestDate.trim().indexOf(":");
-                  date = latestDate.trim().slice(0, indexOfFirstTimeStamp - 2);
-                }
-
-                setLastOrderDate(date);
-                setTotalBuyOrders(
-                  jsonData.retrievedData.totalNumberOfBuyOrders
-                );
-                dispatch(
-                  mainStoreSliceActions.setAPICallMessageType("SUCCESS")
-                );
+                dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
               }
             } else {
               dispatch(
-                mainStoreSliceActions.setAPICallMessage("Undefined Returned")
+                mainStoreSliceActions.setAPICallMessage("Data Retrieved")
               );
-              dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
+              const latestDate = jsonData.retrievedData.latestDate;
+
+              let date = "N/A";
+              if (latestDate.length !== 0) {
+                const indexOfFirstTimeStamp = latestDate.trim().indexOf(":");
+                date = latestDate.trim().slice(0, indexOfFirstTimeStamp - 2);
+              }
+
+              setLastOrderDate(date);
+              setTotalBuyOrders(jsonData.retrievedData.totalNumberOfBuyOrders);
+              dispatch(mainStoreSliceActions.setAPICallMessageType("SUCCESS"));
             }
-          });
-      }
-      setInitialRender(true);
+          } else {
+            dispatch(
+              mainStoreSliceActions.setAPICallMessage("Undefined Returned")
+            );
+            dispatch(mainStoreSliceActions.setAPICallMessageType("ERROR"));
+          }
+        });
     }
-  }, [isSeller, dispatch, userId, userToken, initialRender]);
+  }, [isSeller]);
 
   return (
     <>

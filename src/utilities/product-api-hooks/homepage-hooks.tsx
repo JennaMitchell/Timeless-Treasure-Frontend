@@ -20,7 +20,7 @@ export const latestItemsApiCallWithFilter = async (
 ) => {
   try {
     const fetchedResponse = await fetch(
-      `${databaseURL}product/get-ten-latest-filtered/${sectionType}`,
+      `${databaseURL}/product/get-ten-latest-filtered/${sectionType}`,
       {
         method: "GET",
       }

@@ -6,11 +6,10 @@ import {
   latestItemsApiCall,
   latestItemsApiCallWithFilter,
 } from "../../../utilities/product-api-hooks/homepage-hooks";
-
+import { pictureSelectionTestData } from "../../../utilities/constants/picture-selection-data";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { mainStoreSliceActions } from "../../../store/store";
 import {
-  imageUrlCreator,
   priceInputCleaner,
   priceStringCreator,
   convertPrice,
@@ -19,14 +18,13 @@ import { getTagDataHandler } from "../../../utilities/product-react-hooks/produc
 import { useNavigate } from "react-router-dom";
 import openSocket from "socket.io-client";
 import { databaseURL } from "../../../utilities/constants/constants";
-
 const NewProducts = () => {
   const [activeNewArrivalButton, setActiveNewArrivalButton] = useState("All");
   const [navBarSeperatedEnabler, setNavBarSeperatedEnabler] = useState(false);
-  const [initialRender, setInitialRender] = useState(false);
   const [clickedItemData, setClickedItemData] = useState<{
     [key: string]: any;
   }>({});
+  const [initialRender, setInitialRender] = useState(false);
   const [latestData, setLatestData] = useState<any[]>([]);
   const navBarSeperatedEnablerHandler = () => {
     const match = window.matchMedia(`(max-width:1000px)`);
@@ -223,7 +221,7 @@ const NewProducts = () => {
 
   if (latestData.length !== 0) {
     renderReadyCollection = latestData.map((dataEntry, index) => {
-      const imageUrl = imageUrlCreator(dataEntry.imageUrl);
+      const imageUrl = pictureSelectionTestData[dataEntry.imageKey].photo;
       const cleanedPrice = priceStringCreator(
         priceInputCleaner(
           `${convertPrice(
@@ -266,7 +264,7 @@ const NewProducts = () => {
     <div className={classes.mainContainer}>
       {Object.keys(clickedItemData).length !== 0 && (
         <ProductPopup
-          imageUrl={imageUrlCreator(clickedItemData.imageUrl)}
+          imageUrl={pictureSelectionTestData[clickedItemData.imageKey].photo}
           title={clickedItemData.title}
           description={clickedItemData.description}
           quantity={clickedItemData.quantity}

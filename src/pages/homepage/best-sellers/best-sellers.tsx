@@ -6,11 +6,10 @@ import {
   hotestItemsApiCall,
   hotestItemsApiCallWithFilter,
 } from "../../../utilities/product-api-hooks/homepage-hooks";
-
+import { pictureSelectionTestData } from "../../../utilities/constants/picture-selection-data";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { mainStoreSliceActions } from "../../../store/store";
 import {
-  imageUrlCreator,
   priceInputCleaner,
   priceStringCreator,
   convertPrice,
@@ -21,11 +20,10 @@ import openSocket from "socket.io-client";
 import { databaseURL } from "../../../utilities/constants/constants";
 const BestSellers = () => {
   const [activeNewArrivalButton, setActiveNewArrivalButton] = useState("All");
+  const [initialRender, setInitialRender] = useState(false);
   const [clickedItemData, setClickedItemData] = useState<{
     [key: string]: any;
   }>({});
-  const [hotestData, setHotestData] = useState<any[]>([]);
-  const [initialRender, setInitialRender] = useState(false);
   let renderReadyCollection: any[] = [];
   const selectedPriceType = useAppSelector(
     (state) => state.mainStore.selectedPriceType
@@ -53,34 +51,6 @@ const BestSellers = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!initialRender) {
-      const socket = openSocket(`${databaseURL}`);
-      socket.on("update-product", (data) => {
-        if (data.action === "update-product") {
-          const updatedProductId = data.productCreated.productId;
-          let indexOfMatch = -1;
-
-          for (
-            let indexOfLatestItem = 0;
-            indexOfLatestItem < hotestData.length;
-            indexOfLatestItem++
-          ) {
-            if (updatedProductId === hotestData[indexOfLatestItem].productId) {
-              indexOfMatch = indexOfLatestItem;
-            }
-          }
-          if (indexOfMatch !== -1) {
-            const copyOfLatestData = JSON.parse(JSON.stringify(hotestData));
-            copyOfLatestData[indexOfMatch] = data.productCreated;
-            setHotestData(copyOfLatestData);
-          }
-        }
-      });
-      setInitialRender(true);
-    }
-  }, [hotestData, initialRender]);
-
   const navButtonTitles = [
     "All",
     "Ceramics",
@@ -103,6 +73,8 @@ const BestSellers = () => {
       navButtonApiHandler(sectionTitle);
     }
   };
+
+  const [hotestData, setHotestData] = useState<any[]>([]);
 
   const navButtonApiHandler = (productType: string) => {
     hotestItemsApiCallWithFilter(dispatch, productType)
@@ -161,6 +133,34 @@ const BestSellers = () => {
   };
 
   useEffect(() => {
+    if (!initialRender) {
+      const socket = openSocket(`${databaseURL}`);
+      socket.on("update-product", (data) => {
+        if (data.action === "update-product") {
+          const updatedProductId = data.productCreated.productId;
+          let indexOfMatch = -1;
+
+          for (
+            let indexOfLatestItem = 0;
+            indexOfLatestItem < hotestData.length;
+            indexOfLatestItem++
+          ) {
+            if (updatedProductId === hotestData[indexOfLatestItem].productId) {
+              indexOfMatch = indexOfLatestItem;
+            }
+          }
+          if (indexOfMatch !== -1) {
+            const copyOfLatestData = JSON.parse(JSON.stringify(hotestData));
+            copyOfLatestData[indexOfMatch] = data.productCreated;
+            setHotestData(copyOfLatestData);
+          }
+        }
+      });
+      setInitialRender(true);
+    }
+  }, [hotestData, initialRender]);
+
+  useEffect(() => {
     hotestItemsApiCall(dispatch)
       .then((response) => {
         return response?.json();
@@ -206,7 +206,8 @@ const BestSellers = () => {
 
   if (hotestData.length !== 0) {
     renderReadyCollection = hotestData.map((dataEntry, index) => {
-      const imageUrl = imageUrlCreator(dataEntry.imageUrl);
+      const imageUrl = pictureSelectionTestData[dataEntry.imageKey].photo;
+
       const cleanedPrice = priceStringCreator(
         priceInputCleaner(
           `${convertPrice(
@@ -249,7 +250,7 @@ const BestSellers = () => {
     <div className={classes.mainContainer}>
       {Object.keys(clickedItemData).length !== 0 && (
         <ProductPopup
-          imageUrl={imageUrlCreator(clickedItemData.imageUrl)}
+          imageUrl={pictureSelectionTestData[clickedItemData.imageKey].photo}
           title={clickedItemData.title}
           description={clickedItemData.description}
           quantity={clickedItemData.quantity}

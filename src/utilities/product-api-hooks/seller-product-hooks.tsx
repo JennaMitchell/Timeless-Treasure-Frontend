@@ -10,8 +10,9 @@ export const newProductCall = async (
       method: "POST",
       headers: {
         Authorization: "Bearer " + token,
+        "Content-Type": "application/json",
       },
-      body: formData,
+      body: JSON.stringify(formData),
     });
     return fetchedResponse;
   } catch (error) {
@@ -26,7 +27,7 @@ export const getSellersItemsForSaleCall = async (
 ) => {
   try {
     const fetchedResponse = await fetch(
-      `${databaseURL}product/seller-items-for-sale/${sellerId}`,
+      `${databaseURL}/product/seller-items-for-sale/${sellerId}`,
       {
         method: "GET",
         headers: {
@@ -111,7 +112,7 @@ export const updateProductCall = async (
   token: string
 ) => {
   try {
-    const fetchedResponse = await fetch(`${databaseURL}product/update`, {
+    const fetchedResponse = await fetch(`${databaseURL}/product/update`, {
       method: "PATCH",
       headers: {
         Authorization: "Bearer " + token,
