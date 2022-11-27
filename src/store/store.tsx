@@ -50,7 +50,7 @@ const initialState: State = {
   signupThankYouPopupActive: false,
   selectedPriceType: "USD",
   lockScreenHeight: 0,
-  pictureSelectionPopupActive: true,
+  pictureSelectionPopupActive: false,
 };
 
 const mainStoreSlice = createSlice({
