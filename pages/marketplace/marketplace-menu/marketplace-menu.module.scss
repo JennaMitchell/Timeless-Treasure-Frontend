@@ -1,0 +1,315 @@
+@import "../../../utilities/variables";
+.collectionMenu {
+  width: max(300px, 300px);
+  background-color: transparent;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-items: center;
+  align-self: flex-start;
+  gap: 15px;
+  margin-top: 15px;
+}
+.contentBlock {
+  width: max(100%, 100%);
+  height: max-content;
+  min-height: max-content;
+  max-height: max-content;
+  display: grid;
+  grid-template-rows: max-content;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+}
+.inputLabel {
+  position: absolute;
+  top: 52%;
+  left: 30px;
+  transform: translateY(-50%);
+  font-size: toRem(14);
+  transition: all 0.25s;
+  background-color: $white;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-family: $fontFamily;
+}
+.movedInputLabel {
+  top: -1.5px;
+  left: 10px;
+  font-size: toRem(10);
+}
+.blockDropdownButton {
+  width: max(100%, 100%);
+  height: max(40px, 40px);
+  text-align: left;
+  font-size: 1.2rem;
+  font-family: $fontFamily;
+  color: $main1000;
+  margin: 0px;
+  padding: 5px 0px 5px 0px;
+  background-color: transparent;
+  border: 0px;
+  border-bottom: 1px solid $main800;
+  position: relative;
+  transition: all 0.5s;
+}
+.blockDropdownButton:hover {
+  color: $main300;
+  border-bottom: 1px solid $main300;
+}
+.buttonDownIcon {
+  width: max(25px, 25px);
+  height: max(25px, 25px);
+  color: inherit;
+  padding: 0px;
+  margin: 0px;
+  position: absolute;
+  background-color: transparent;
+  top: 12px;
+  right: 10px;
+  transition: all 0.5s;
+}
+
+.searchBarContainer {
+  width: max(95%, 95%);
+  height: max(40px, 40px);
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  padding-left: 10px;
+  padding-right: 10px;
+  gap: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  position: relative;
+}
+.searchBarContainerActive {
+  border: 1px solid blue;
+  outline: 1px solid lightblue;
+}
+.searchbarIcon {
+  width: max(20px, 20px);
+  height: max(20px, 20px);
+  color: $black;
+}
+.searchBarInput {
+  outline: 0px;
+  border: 0px;
+  border-radius: 5px;
+  font-size: toRem(14);
+  background-color: transparent;
+  height: max-content;
+  width: max(200px, 200px);
+  overflow-x: hidden;
+  font-family: $fontFamily;
+}
+.tagBlock {
+  width: max(100%, 100%);
+  height: max(200px, 200px);
+  margin-top: 10px;
+  border: 1px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  align-content: flex-start;
+  justify-content: flex-start;
+}
+
+.categoryBlock {
+  width: max(100%, 100%);
+  height: max-content;
+  min-height: max-content;
+  max-height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  gap: 10px;
+}
+.filterButtonContainer {
+  min-height: max-content;
+  width: max(100%, 100%);
+  height: max-content;
+  max-height: max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.categoryButton {
+  background-color: $white;
+  font-size: toRem(16);
+  padding: 10px 0px;
+  width: max(90%, 90%);
+  border: none;
+  text-align: left;
+  font-family: $fontFamily;
+  color: $main1000;
+  border-bottom: 1px solid $main1000;
+  transition: all 0.5s;
+  display: flex;
+  z-index: 2;
+  align-items: center;
+  justify-content: space-between;
+}
+.categoryButton:hover {
+  border-bottom: 1px solid $main400;
+  color: $main400;
+}
+.categoryButtonIcon {
+  width: max(20px, 20px);
+  height: max(20px, 20px);
+  color: inherit;
+}
+
+.priceRangesSectionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: max(100%, 100%);
+  box-sizing: border-box;
+  height: max(220px, 220px);
+  overflow-y: scroll;
+  border: 1px solid $main1000;
+  border-radius: 5px;
+  padding: 10px 0px 10px 10px;
+  position: relative;
+}
+.priceRangeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  width: max(80%, 80%);
+  height: max-content;
+  max-height: max-content;
+  min-height: max-content;
+}
+.priceRangeCheckbox {
+  width: max(15px, 15px);
+  height: max(15px, 15px);
+  border-radius: 50%;
+  background-color: $white;
+  border: 1px solid $main800;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  padding: 0px;
+}
+.priceCheckIcon {
+  width: max(100%, 100%);
+  height: max(100%, 100%);
+  color: $white;
+  background-color: $main800;
+  border-radius: 50%;
+}
+.priceRangeText {
+  width: max-content;
+  max-width: max-content;
+  min-width: max-content;
+  height: max-content;
+  font-size: toRem(16);
+  padding: 0px;
+  margin: 0px;
+  font-family: $fontFamily;
+  color: $main1000;
+}
+
+.mobileMenuCloseButton {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: max(30px, 30px);
+  height: max(30px, 30px);
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 50%;
+  background-color: $white;
+  color: $main800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 12;
+  border: 0px;
+  transition: all 1s;
+}
+.mobileMenuCloseButton:hover {
+  background-color: $main800;
+  color: $main200;
+}
+.mobileCloseIcon {
+  width: max(100%, 100%);
+  height: max(100%, 100%);
+}
+
+@media (max-width: 800px) {
+  .collectionMenu {
+    position: absolute;
+    left: -300px;
+    top: -75px;
+    background-color: $main800;
+    min-height: calc(100% + 80px);
+    height: calc(100% + 80px);
+    max-height: calc(100% + 80px);
+    width: max(300px, 300px);
+    display: flex;
+    flex-direction: column;
+    transition: all 1s;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    z-index: 10;
+    overflow-y: scroll;
+  }
+  .collectionMenuActive {
+    left: 0px;
+  }
+  .categoryButton {
+    width: max(90%, 90%);
+    color: $white;
+  }
+  .blockDropdownButton {
+    color: $white;
+    width: max(80%, 80%);
+    font-size: toRem(16);
+    border-bottom: 1px solid $white;
+    background-color: $main800;
+  }
+  .searchBarContainer {
+    width: max(75%, 75%);
+    border: 1px solid $white;
+    justify-self: center;
+    color: $white;
+    margin-left: 20px;
+  }
+  .searchBarInput {
+    color: $white;
+  }
+  .inputLabel {
+    color: $white;
+    background-color: $main800;
+  }
+  .searchbarIcon {
+    color: $white;
+  }
+  .tagBlock {
+    border: 1px solid $white;
+    width: max(80%, 80%);
+    background-color: $white;
+    height: max(200px, 200px);
+  }
+  .filterButtonContainer {
+    width: max(75%, 75%);
+  }
+  .categoryButton {
+    background-color: $main800;
+    width: max(90%, 90%);
+    border-bottom: 1px solid $white;
+  }
+}

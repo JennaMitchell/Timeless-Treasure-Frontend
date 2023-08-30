@@ -1,0 +1,182 @@
+@import "../../../utilities/variables";
+
+.mainContainer {
+  width: min(1000px, 100%);
+  height: max-content;
+  min-height: max-content;
+  max-height: max-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+
+  margin: 0px auto;
+}
+
+.decorPhotoContainer {
+  width: max(350px, 350px);
+  height: max(350px, 350px);
+  position: relative;
+  border: 10px solid $main600;
+  border-radius: 20px;
+}
+.titleDecoration {
+  width: max(200px, 200px);
+  height: max(40px, 40px);
+  object-fit: contain;
+  justify-self: center;
+  padding-right: 0px;
+}
+.decorPhoto {
+  width: max(350px, 350px);
+  height: max(350px, 350px);
+  display: inline-block;
+  border-radius: 15px;
+  z-index: 2;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+}
+.infoContainer {
+  width: max-content;
+  max-width: max-content;
+  align-items: center;
+  justify-content: center;
+
+  height: max-content;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  row-gap: 40px;
+}
+.infoStep {
+  display: flex;
+  width: max(100%, 100%);
+  height: max(100%, 100%);
+
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.stepIcon {
+  width: max(80px, 80px);
+  height: max(80px, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+
+  text-align: center;
+}
+.decorPhoto {
+  width: max(350px, 350px);
+  height: max(350px, 350px);
+  display: inline-block;
+  border-radius: 15px;
+  z-index: 2;
+  position: absolute;
+  top: 25px;
+  left: 25px;
+}
+.stepIconText {
+  width: max-content;
+  height: max-content;
+  font-family: $fontFamily;
+  font-size: toRem(48);
+  line-height: 2.8rem;
+  color: $white;
+  padding: 0px;
+  margin: 0px;
+  padding-bottom: 5px;
+}
+.stepIconOne {
+  background-color: $main400;
+}
+.stepIconTwo {
+  background-color: $main600;
+}
+.stepIconThree {
+  background-color: $main800;
+}
+.stepTextContainer {
+  max-width: max-content;
+  width: max-content;
+  height: max-content;
+  max-height: max-content;
+  display: grid;
+  align-content: center;
+  justify-content: flex-start;
+  grid-template-rows: max-content max-content;
+  row-gap: 10px;
+  font-family: $fontFamily;
+  padding-bottom: 5px;
+}
+.stepText {
+  font-family: $fontFamily;
+  font-size: toRem(22);
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+  max-width: max-content;
+  min-width: max-content;
+}
+.stepsubText {
+  font-family: $fontFamily;
+  font-size: toRem(16);
+  text-align: left;
+  margin: 0px;
+  padding: 0px;
+  width: max(20ch, 20ch);
+}
+@media (max-width: 900px) {
+  .mainContainer {
+    flex-direction: column;
+    gap: 60px;
+  }
+}
+@media (max-width: 550px) {
+  .decorPhotoContainer {
+    width: max(300px, 300px);
+    height: max(300px, 300px);
+  }
+
+  .decorPhoto {
+    width: max(300px, 300px);
+    height: max(300px, 300px);
+  }
+  .decorPhoto {
+    width: max(300px, 300px);
+    height: max(300px, 300px);
+  }
+  .stepIcon {
+    width: max(60px, 60px);
+    height: max(60px, 60px);
+  }
+  .stepIconText {
+    font-size: toRem(36);
+  }
+  .stepText {
+    font-size: toRem(18);
+  }
+  .stepsubText {
+    font-size: toRem(12);
+  }
+}
+@media (max-width: 550px) {
+  .decorPhotoContainer {
+    width: max(250px, 250px);
+    height: max(250px, 250px);
+  }
+
+  .decorPhoto {
+    width: max(250px, 250px);
+    height: max(250px, 250px);
+  }
+  .decorPhoto {
+    width: max(250px, 250px);
+    height: max(250px, 250px);
+  }
+
+  .stepsubText {
+    width: max(17ch, 17ch);
+  }
+}
