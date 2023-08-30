@@ -5,6 +5,7 @@ import {
   numbers,
   upperCaseLettersArray,
   priceConversionObject,
+  databaseURL,
 } from "../constants/constants";
 
 export const priceInputCleaner = (price: string) => {
@@ -116,7 +117,7 @@ export const dropDownNavCategoryHandler = (
 };
 
 export const imageUrlCreator = (url: string) => {
-  return "http://localhost:5000/" + url;
+  return databaseURL + url;
 };
 
 export const tempEmailGenerator = (isSeller: boolean) => {

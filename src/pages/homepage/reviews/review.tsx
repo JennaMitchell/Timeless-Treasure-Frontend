@@ -22,6 +22,7 @@ const Reviews = () => {
       setStackReviews(true);
     }
   }, []);
+  console.log(stackReviews);
 
   window.addEventListener("resize", navBarSeperatedEnablerHandler);
 

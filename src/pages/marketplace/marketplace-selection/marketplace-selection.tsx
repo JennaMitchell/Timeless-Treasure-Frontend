@@ -203,9 +203,9 @@ const MarketplaceSelection = () => {
       if (typeof itemData === "undefined") {
         break;
       }
+      console.log(itemData);
 
-      const productImageUrl =
-        pictureSelectionTestData[itemData.imageIndex].photo;
+      const productImageUrl = pictureSelectionTestData[itemData.imageKey].photo;
 
       const tempPrice = priceStringCreator(
         priceInputCleaner(

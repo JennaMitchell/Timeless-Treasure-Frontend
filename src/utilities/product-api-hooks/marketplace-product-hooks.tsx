@@ -15,6 +15,7 @@ export const getFilteredProduct = async (dispatch: any, tagData: any) => {
       const fetchedResponse = await fetch(`${databaseURL}/product/get-all`, {
         method: "GET",
       });
+      console.log(fetchedResponse);
       return fetchedResponse;
     } catch (error) {
       dispatch(mainStoreSliceActions.setAPICallMessage("Local Error"));

@@ -7,7 +7,7 @@ import LoginPopup from "./components/popups/login/login-popup";
 import SignupPopup from "./components/popups/signup/signup-popup";
 import Marketplace from "./pages/marketplace/marketplace";
 import PageNotFound from "./components/page-not-found/page-not-found";
-import ApiCallDropdown from "./components/api-call-dropdown/api-call-dropdown";
+// import ApiCallDropdown from "./components/api-call-dropdown/api-call-dropdown";
 import LoadingPage from "./components/loading-page/loading-page";
 import Cart from "./pages/cart/cart";
 import UserSettingsPage from "./pages/user-settings/user-settings-page";
@@ -50,7 +50,7 @@ function App() {
       <LoginPopup />
       <SignupPopup />
       <ForgotPasswordPopup />
-      <ApiCallDropdown />
+      {/* <ApiCallDropdown /> */}
       <LoggedInDropdown />
       <NewPostPopup />
       <SignupThankYou />
