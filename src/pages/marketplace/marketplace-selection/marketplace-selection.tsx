@@ -203,7 +203,6 @@ const MarketplaceSelection = () => {
       if (typeof itemData === "undefined") {
         break;
       }
-      console.log(itemData);
 
       const productImageUrl = pictureSelectionTestData[itemData.imageKey].photo;
 
